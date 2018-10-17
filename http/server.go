@@ -71,8 +71,8 @@ func (rtr *router) updateSchema(schemas []types.Schema) {
 	rtr.Lock()
 	defer rtr.Unlock()
 	router := httprouter.New()
-	for _, schema := range schemas {
-		router.Handle(schema.Method, schema.Path, handlerFunc(schema))
+	for i := 0; i < len(schemas); i++ {
+		router.Handle(schemas[i].Method, schemas[i].Path, handlerFunc(schemas[i]))
 	}
 	rtr.Handler = router
 }
