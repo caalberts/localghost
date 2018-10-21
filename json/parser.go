@@ -48,7 +48,7 @@ func (p *Parser) Watch(input chan io.Reader) {
 func createSchema(stubs []stub) ([]types.Schema, error) {
 	schemas := make([]types.Schema, len(stubs))
 
-	for i := 0; i < len(stubs); i++ {
+	for i := range stubs {
 		if f := missingFields(stubs[i]); len(f) > 0 {
 			err := fmt.Errorf("missing required fields: %s", strings.Join(f, ", "))
 			return []types.Schema{}, err
