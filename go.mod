@@ -1,7 +1,6 @@
-module github.com/Keloran/localroast
+module github.com/caalberts/localroast
 
 require (
-	github.com/caalberts/localroast v0.2.1
 	github.com/davecgh/go-spew v1.1.1
 	github.com/fsnotify/fsnotify v1.4.7
 	github.com/inconshreveable/mousetrap v1.0.0
