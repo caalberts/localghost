@@ -1,10 +1,13 @@
 package http
 
 import (
+	"bytes"
+	"encoding/json"
 	"net/http"
 
-	"github.com/julienschmidt/httprouter"
 	"sync"
+
+	"github.com/julienschmidt/httprouter"
 
 	"github.com/caalberts/localroast/types"
 	log "github.com/sirupsen/logrus"
@@ -79,10 +82,23 @@ func (rtr *router) updateSchema(schemas []types.Schema) {
 
 func handlerFunc(schema types.Schema) httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+
 		log.Infof("request: %s %s", r.Method, r.URL)
 		log.Infof("response status: %d, body: %s", schema.Status, schema.Response)
 		w.Header().Add("Content-Type", "application/json")
 		w.WriteHeader(schema.Status)
-		w.Write(schema.Response)
+		_, ok := r.URL.Query()["pretty"]
+		if !ok {
+			w.Write(schema.Response)
+		} else {
+			//formats JSON
+			var prettyJSON bytes.Buffer
+			err := json.Indent(&prettyJSON, schema.Response, "", "  ")
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusBadRequest)
+			}
+			w.Write(prettyJSON.Bytes())
+		}
+
 	}
 }

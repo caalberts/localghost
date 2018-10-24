@@ -86,7 +86,7 @@
   name = "github.com/stretchr/testify"
   packages = [
     "assert",
-    "mock",
+    "mock"
   ]
   pruneopts = "UT"
   revision = "12b6f73e6084dad08a7c6e575284b177ecafbc71"
@@ -106,7 +106,7 @@
   name = "golang.org/x/sys"
   packages = [
     "unix",
-    "windows",
+    "windows"
   ]
   pruneopts = "UT"
   revision = "4910a1d54f876d7b22162a85f4d066d3ee649450"
@@ -120,7 +120,7 @@
     "github.com/sirupsen/logrus",
     "github.com/spf13/cobra",
     "github.com/stretchr/testify/assert",
-    "github.com/stretchr/testify/mock",
+    "github.com/stretchr/testify/mock"
   ]
   solver-name = "gps-cdcl"
   solver-version = 1
