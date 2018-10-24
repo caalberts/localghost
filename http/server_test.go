@@ -6,10 +6,11 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/caalberts/localroast/types"
-	"github.com/stretchr/testify/assert"
 	"io/ioutil"
 	"time"
+
+	"github.com/caalberts/localroast/types"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestNewServer(t *testing.T) {
@@ -109,4 +110,23 @@ func TestPathParam(t *testing.T) {
 	router.ServeHTTP(resp, req)
 
 	assert.Equal(t, schema.Status, resp.Code)
+}
+
+func TestPrettyJSON(t *testing.T) {
+	schema := types.Schema{
+		Method:   "GET",
+		Path:     "/users",
+		Status:   200,
+		Response: []byte(`{"success": true}`),
+	}
+	router := newRouter()
+	router.updateSchema([]types.Schema{schema})
+	testPath := "/users?pretty"
+	req := httptest.NewRequest(schema.Method, testPath, nil)
+	resp := httptest.NewRecorder()
+	router.ServeHTTP(resp, req)
+
+	assert.Equal(t, schema.Status, resp.Code)
+	assert.Contains(t, resp.Body.String(), `  "success": true`)
+
 }
