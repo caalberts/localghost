@@ -127,6 +127,5 @@ func TestPrettyJSON(t *testing.T) {
 	router.ServeHTTP(resp, req)
 
 	assert.Equal(t, schema.Status, resp.Code)
-	assert.Contains(t, resp.Body.String(), `  "success": true`)
-
+	assert.JSONEq(t, string(schema.Response), resp.Body.String())
 }
